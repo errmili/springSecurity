@@ -1,10 +1,16 @@
 package com.spring.security.model;
 
 
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -31,4 +37,13 @@ public class User {
 
     @Column(name = "active")
     private int active;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_authorities",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authorities_id")}
+    )
+    private List<Authorities> authorities = new ArrayList<>();
 }
